@@ -10,9 +10,6 @@ class Account < ApplicationRecord
     
     def self.valid_login?(email)
         account = find_by(email: email)
-        if account
-          account
-        end
     end
     
 end 
