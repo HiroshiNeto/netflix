@@ -23,7 +23,7 @@ module Api::V1
       private
   
       def send_auth_token_for_valid_login_of(account)
-        render json: { data: { token: account.token } }
+        render json: { token: account.token }
       end
   
     end
