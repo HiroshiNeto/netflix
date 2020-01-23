@@ -7,5 +7,12 @@ class Account < ApplicationRecord
     validates_presence_of     :email
     validates_presence_of     :password
     validates_uniqueness_of   :email, case_sensitive: true
-
+    
+    def self.valid_login?(email)
+        account = find_by(email: email)
+        if account
+          account
+        end
+    end
+    
 end 
