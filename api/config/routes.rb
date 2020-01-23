@@ -9,12 +9,14 @@ Rails.application.routes.draw do
       get   'profiles/:profile_id/interest_lists'    =>  'interest_lists#index'
       get   'profiles'          =>  'profiles#index'
       get   'me'                =>  'accounts#me'
+      get   'movies/:term'  =>  'movies#get_by_term'
 
-      put   'interest_lists/:interest_list_id'   =>  'interest_lists#update'
       put   'profiles/:profile_id'   =>  'profiles#update'
       put   'update_me'         =>  'accounts#update_me'
+      patch 'interest_lists/:interest_list_id/update_watchlist'  =>  'interest_lists#update_watchlist'
+      patch 'interest_lists/:interest_list_id/update_viewed'  =>  'interest_lists#update_viewed'
       
-      delete 'profiles/:profile_id/interest_lists/:interest_list_id' => 'interest_lists#delete'
+      delete 'interest_lists/:interest_list_id' => 'interest_lists#delete'
       delete 'profiles/:profile_id' => 'profiles#delete'
     end
 
