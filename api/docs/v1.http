@@ -10,7 +10,7 @@ Content-type: {{contentType}}
 {
     "email": "hiroshi@gmail.com",
     "password": "senha123"
-} 
+}
 
 ### Create Account
 POST {{hostV1}}/accounts/create HTTP/1.1
@@ -18,9 +18,9 @@ Content-type: {{contentType}}
 
 {
   "name": "Hiroshi Takehisa Neto",
-  "email": "hiroshi@gmaias.com",
+  "email": "hiroshi@gmsaias.com",
   "password": "senha123",
-  "birthday": "{{datetime -12 y}}"
+  "birthday": "{{datetime}}"
 }
 
 ### Show me
