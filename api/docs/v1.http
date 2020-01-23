@@ -1,6 +1,6 @@
 @hostV1 = http://localhost:3000/api/v1
 @contentType = application/json
-@authorization = Token token=Vvvyx8Ldwzp8T5tbKYCyYMjd
+@authorization = Token token=ZR5r77zyaQvgoVimvzkpgek5
 @datetime = {{$datetime iso8601}}
 
 ### Authentication
@@ -8,7 +8,7 @@ POST {{hostV1}}/auth HTTP/1.1
 Content-type: {{contentType}}
 
 {
-    "email": "hiroshi@gmail.com",
+    "email": "hiroshi@gmsaias.com",
     "password": "senha123"
 }
 
@@ -66,4 +66,27 @@ Content-type: {{contentType}}
 Authorization: {{authorization}}
 
 ###--------------------------------------------------------------------------------###
+
+### Create Interest List
+POST {{hostV1}}/interest_lists/create HTTP/1.1
+Content-type: {{contentType}}
+Authorization: {{authorization}}
+
+{
+  "movie_id": "475557-joker",
+  "profile_id": "7"
+}
+
+### List Interest List
+GET {{hostV1}}/profiles/7/interest_lists HTTP/1.1
+Content-type: {{contentType}}
+Authorization: {{authorization}}
+
+### Delete Interest List
+DELETE {{hostV1}}/profiles/7/interest_lists/11 HTTP/1.1
+Content-type: {{contentType}}
+Authorization: {{authorization}}
+
+###--------------------------------------------------------------------------------###
+
 
