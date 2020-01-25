@@ -73,19 +73,30 @@ Content-type: {{contentType}}
 Authorization: {{authorization}}
 
 {
-  "movie_id": "475557-joker",
-  "profile_id": "7"
+  "movie_id": "1412-arrow",
+  "profile_id": "30"
 }
 
 ### List Interest List
-GET {{hostV1}}/profiles/7/interest_lists HTTP/1.1
+GET {{hostV1}}/profiles/32/interest_lists HTTP/1.1
 Content-type: {{contentType}}
 Authorization: {{authorization}}
 
-### Alter status watchlist 
-PATCH {{hostV1}}/interest_lists/6/update_watchlist
+### List Watch List
+GET {{hostV1}}/profiles/32/watch_lists HTTP/1.1
 Content-type: {{contentType}}
 Authorization: {{authorization}}
+
+
+### Add status watchlist 
+POST {{hostV1}}/interest_lists/add_watch_list
+Content-type: {{contentType}}
+Authorization: {{authorization}}
+
+{
+  "movie_id": "475557-joker",
+  "profile_id": "30"
+}
 
 ### Alter status viewed 
 PATCH {{hostV1}}/interest_lists/6/update_viewed
@@ -101,5 +112,10 @@ Authorization: {{authorization}}
 
 ### Show Movie by Term
 GET {{hostV1}}/movies/breaking%20bad
+Content-type: {{contentType}}
+Authorization: {{authorization}}
+
+### Show all movies
+GET {{hostV1}}/movies
 Content-type: {{contentType}}
 Authorization: {{authorization}}
