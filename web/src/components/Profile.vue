@@ -26,8 +26,8 @@
               </div>
               <div class="card-content">
                 <h6 class="card-title activator green-text text-lighten-5">{{ profile.name }}</h6>
-                <router-link to="interest_list">
-                  <button class="btn grey">
+                <router-link to="list-movies">
+                  <button class="btn grey" @click.prevent="setCurrentProfile(profile)">
                     Entrar
                   </button>
                 </router-link>
@@ -78,11 +78,15 @@ export default {
       'ActionSearchProfiles',
       'ActionSaveProfile',
       'ActionRemoveProfile',
-      'ActionUpdateDefaultProfile'
-      ]),
-    mainProfile(profile_id){
-      console.log(this.current_account.default_profile_id == null)
+      'ActionUpdateDefaultProfile',
+      'ActionSetCurrentProfile'
+    ]),
+    mainProfile (profile_id) {
       return this.current_account.default_profile_id == profile_id
+    },
+    async setCurrentProfile (profile) {
+      await this.ActionSetCurrentProfile(profile)
+      this.$router.push('/list-movies')
     },
     getRandomColor () {
       var letters = '0123456789ABCDEF'

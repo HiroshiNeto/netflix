@@ -7,3 +7,6 @@ export const setLocalToken = token => localStorage.setItem('token', token)
 export const setCurrentUser = user => localStorage.setItem('user', JSON.stringify(user))
 export const getCurrentUser = () => JSON.parse(localStorage.getItem('user'))
 export const deleteCurrentUser = () => localStorage.removeItem('user')
+export const setCurrentProfile = profile => localStorage.setItem('profile', JSON.stringify(profile))
+export const getCurrentProfile = () => JSON.parse(localStorage.getItem('profile'))
+
