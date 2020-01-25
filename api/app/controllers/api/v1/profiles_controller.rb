@@ -7,6 +7,9 @@ module Api::V1
             name = profile_params[:name]
             if account.profiles.length < 4
                 profile = Profile.create!(name: name, account_id: account.id)
+                if account.profiles.length == 0
+                    account.update_columns(profile_id: profile.id )
+                end
                 render json: profile, serializer: ProfileSerializer
             else
                 render json: { error: 'reached the profile limit' }, status: 400
@@ -26,7 +29,7 @@ module Api::V1
             profile = profile.update!(profile_params)
             render json: profile
         end
-      
+        
         # DELETE /api/v1/profiles/:profile_id
         def delete
             profile = Profile.find(params[:profile_id])
