@@ -18,7 +18,14 @@ module Api::V1
             account = current_account
             render json: account, each_serializer: AccountSerializer
         end
-      
+        
+        # PATCH /api/v1/accounts/update_profile_default/:default_profile
+        def update_profile_default
+            account = current_account
+            account = account.update_columns(profile_id: account_params[:default_params])
+            render json: account
+        end
+
         # PUT /api/v1/update_me
         def update_me
             account = current_account

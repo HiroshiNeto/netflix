@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       put   'update_me'         =>  'accounts#update_me'
       patch 'interest_lists/:interest_list_id/update_watchlist'  =>  'interest_lists#update_watchlist'
       patch 'interest_lists/:interest_list_id/update_viewed'  =>  'interest_lists#update_viewed'
+      patch 'accounts/update_profile_default/:default_profile' =>  'accounts#update_profile_default'
       
       delete 'interest_lists/:interest_list_id' => 'interest_lists#delete'
       delete 'profiles/:profile_id' => 'profiles#delete'

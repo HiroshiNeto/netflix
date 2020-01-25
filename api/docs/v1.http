@@ -61,7 +61,7 @@ Authorization: {{authorization}}
 }
 
 ### Delete Profile
-DELETE {{hostV1}}/profiles/5 HTTP/1.1
+DELETE {{hostV1}}/profiles/10 HTTP/1.1
 Content-type: {{contentType}}
 Authorization: {{authorization}}
 
