@@ -4,7 +4,9 @@ module Api::V1
                   :movie,
                   :profile_id,
                   :viewed,
-                  :watchlist
+                  :watchlist,
+                  :created_at,
+                  :updated_at
       
       def movie 
         movie_id = object.movie_id
