@@ -2,6 +2,17 @@
   <div id="Profile">
     <div class="container">
       <div class="row">
+        <div class="col s12 right-align">
+           <router-link to="/">
+            <button class="btn red darken-2" @click.prevent="logout()" >
+              Sair
+            </button>
+          </router-link>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
         <div class="center-align valign-wrapper col s12 margin">
           <form>
             <div class="row" v-if="this.profiles.length < 4">
@@ -20,7 +31,7 @@
             </div>
           </form>
           <div v-for="(profile, index) in this.profiles" :key="profile.id" class="col s3">
-            <div class="card" v-bind:class="{ mainProfile: mainProfile(profile.id) }" v-bind:style="{ backgroundColor:getRandomColor()}">
+            <div class="card" v-bind:class="{ mainProfile: mainProfile(profile.id, index) }" v-bind:style="{ backgroundColor:getRandomColor()}">
               <div class="card-image waves-effect waves-block waves-light">
                 <img class="activator" :src="'http://lorempixel.com.br/180/160/?'+ profile.id">
               </div>
@@ -41,7 +52,7 @@
                   </button>
                 </div>
                 <div class="row">
-                  <button class="btn blue darken-4" @click.prevent="updateDefaultProfile(profile.id, index)">
+                  <button class="btn blue darken-4" @click.prevent="updateDefaultProfile(profile.id)">
                     Tornar Principal
                   </button>
                 </div>
@@ -70,6 +81,7 @@ export default {
   },
   async mounted () {
     await this.ActionSearchProfiles()
+    await this. ActionCurrentUser()
     this.profiles = this.getProfiles
     this.current_account = this.getCurrentUser
   },
@@ -79,10 +91,22 @@ export default {
       'ActionSaveProfile',
       'ActionRemoveProfile',
       'ActionUpdateDefaultProfile',
-      'ActionSetCurrentProfile'
+      'ActionSetCurrentProfile',
+      'ActionSignOut',
+      'ActionCurrentUser'
     ]),
-    mainProfile (profile_id) {
-      return this.current_account.default_profile_id == profile_id
+    mainProfile (profile_id, index) {
+      if (this.getProfiles.length < 1 ) {
+        this.ActionUpdateDefaultProfile(profile_id)
+        this.current_account.default_profile_id = profile_id
+      }
+      if (this.current_account.default_profile_id != null)
+        return this.current_account.default_profile_id == profile_id
+
+    },
+    async logout () {
+      await this.ActionSignOut()
+      this.$router.push('/')
     },
     async setCurrentProfile (profile) {
       await this.ActionSetCurrentProfile(profile)
@@ -113,11 +137,10 @@ export default {
         console.log(err.data)
       }
     },
-    async updateDefaultProfile (id, index) {
+    async updateDefaultProfile (id) {
       try {
         await this.ActionUpdateDefaultProfile(id)
         this.current_account.default_profile_id = id
-
       } catch (err) {
         console.log(err.data)
       }
@@ -131,7 +154,7 @@ export default {
     box-shadow: rgb(239, 255, 0) 0px 0px 14px 4px !important;
   }
   .margin{
-    margin-top: 200px;
+    margin-top: 150px;
   }
   .dimension{
     width: 180px !important;

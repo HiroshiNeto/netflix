@@ -13,9 +13,14 @@ export default new Vuex.Store({
     profiles: [],
     movies: [],
     interestList: [],
-    watchList: []
+    watchList: [],
+    moviesViewed: [],
+    movies: []
   },
   getters: {
+    hasToken (state) {
+      return !!state.token
+    },
     getCurrentUser (state) {
       return storange.getCurrentUser()
     },
@@ -33,6 +38,12 @@ export default new Vuex.Store({
     },
     getWatchList (state) {
       return state.watchList
+    },
+    getMoviesViewed (state) {
+      return state.moviesViewed
+    },
+    getMovies (state) {
+      return state.movies
     }
   },
   mutations: {
@@ -56,6 +67,12 @@ export default new Vuex.Store({
     },
     SET_WATCH_LIST (state, payload) {
       state.watchList = payload
+    },
+    SET_MOVIES_VIEWED (state, payload) {
+      state.moviesViewed = payload
+    },
+    SET_MOVIES (state, payload) {
+      state.movies = payload
     }
   },
   actions: {
@@ -79,13 +96,23 @@ export default new Vuex.Store({
     },
     ActionGetCurrentProfile: ({commit}) => {
       commit('SET_CURRENT_PROFILE', storange.getCurrentProfile() )
-
     },
     ActionSignOut: ({ dispatch }) => {
-      // storange.setHeaderToken('')
-      // storange.deleteLocalToken()
-      // storange.deleteCurrentUser()
-      // dispatch('ActionSetToken', '')
+      storange.setHeaderToken('')
+      storange.deleteLocalToken()
+      storange.deleteCurrentUser()
+      storange.deleteCurrentProfile()
+      dispatch('ActionSetToken', '')
+    },
+    ActionCheckToken: ({ dispatch, state }) => {
+      if (state.token) {
+        return Promise.resolve(state.token)
+      }
+      const token = storange.getLocalToken()
+      if (!token) {
+        return Promise.reject(new Error('Token Inválido'))
+      }
+      dispatch('ActionSetToken', token)
     },
     ActionSetToken: ({ commit }, payload) => {
       storange.setLocalToken(payload)
@@ -146,5 +173,38 @@ export default new Vuex.Store({
           commit('SET_INTEREST_LIST', res.data)
         })
     },
+    ActionDeleteInterestList: ({}, id) => {
+      storange.setHeaderToken(storange.getLocalToken())
+      return http.delete(http.api + '/v1/interest_lists/' + id)
+    },
+    ActionDeleteWatchList: ({}, id) => {
+      storange.setHeaderToken(storange.getLocalToken())
+      return http.delete(http.api + '/v1/interest_lists/' + id)
+    },
+    ActionUpdateViewed:({}, id) => {
+      storange.setHeaderToken(storange.getLocalToken())
+      return http.patch(http.api + '/v1/interest_lists/' + id + '/update_viewed')
+    },
+    ActionListMoviesViewed: ({commit}, currentProfile) => {
+      storange.setHeaderToken(storange.getLocalToken())
+      return http.get(http.api + '/v1/profiles/' + currentProfile.id +'/movies_viewed')
+        .then(res => {
+          commit('SET_MOVIES_VIEWED', res.data)
+        })
+    },
+    ActionSearchMovie: ({commit},term) => {
+      storange.setHeaderToken(storange.getLocalToken())
+      return http.get(http.api + '/v1/movies/' + term )
+        .then(res => {
+          commit('SET_MOVIES', res.data)
+        })
+    },
+    ActionCreateAccount: ({ dispatch }, payload) => {
+      storange.setHeaderToken(storange.getLocalToken())
+      return http.post(http.api + '/v1/accounts/create', payload)
+        .then(res => {
+          dispatch('ActionSetToken', res.data.token)
+        })
+    }
   }
 })
