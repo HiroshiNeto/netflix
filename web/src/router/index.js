@@ -1,19 +1,21 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/components/Home'
+import SignUp from '@/components/SignUp'
 import Login from '@/components/Login'
 import Profile from '@/components/Profile'
 import ListMovies from '@/components/ListMovies'
+import Movies from '@/components/Movies'
+import beforeEach from './beforeEach'
 import 'materialize-css'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'Home',
-      component: Home
+      name: 'Login',
+      component: Login
     },
     {
       path: '/login',
@@ -29,6 +31,19 @@ export default new Router({
       path: '/list-movies',
       name: 'ListMovies',
       component: ListMovies
+    },
+    {
+      path: '/movies',
+      name: 'Movies',
+      component: Movies
+    },
+    {
+      path: '/sign-up',
+      name: 'SignUp',
+      component: SignUp
     }
   ]
 })
+
+router.beforeEach(beforeEach)
+export default router
