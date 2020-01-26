@@ -1,0 +1,126 @@
+@hostV1 = http://localhost:3000/api/v1
+@contentType = application/json
+@authorization = Token token=ZR5r77zyaQvgoVimvzkpgek5
+@datetime = {{$datetime iso8601}}
+
+### Authentication
+POST {{hostV1}}/auth HTTP/1.1
+Content-type: {{contentType}}
+
+{
+    "email": "hiroshi@gamsaias.com",
+    "password": "senha123"
+}
+
+### Create Account
+POST {{hostV1}}/accounts/create HTTP/1.1
+Content-type: {{contentType}}
+
+{
+  "name": "Hiroshi Takehisa Neto",
+  "email": "hiroshi@gmsaaias.com",
+  "password": "senha123",
+  "birthday": "{{datetime}}"
+}
+
+### Show me
+GET {{hostV1}}/me HTTP/1.1
+Content-type: {{contentType}}
+Authorization: {{authorization}}
+
+### Edit me
+PUT {{hostV1}}/update_me HTTP/1.1
+Content-type: {{contentType}}
+Authorization: {{authorization}}
+
+{
+  "name": "Hiroshi"
+}
+
+### Create Profile
+POST {{hostV1}}/profiles/create HTTP/1.1
+Content-type: {{contentType}}
+Authorization: {{authorization}}
+
+{
+  "name": "Hiros2"
+}
+
+### List Profiles
+GET {{hostV1}}/profiles HTTP/1.1
+Content-type: {{contentType}}
+Authorization: {{authorization}}
+
+### Edit Profile
+PUT {{hostV1}}/profiles/1 HTTP/1.1
+Content-type: {{contentType}}
+Authorization: {{authorization}}
+
+{
+  "name": "Hiro1"
+}
+
+### Delete Profile
+DELETE {{hostV1}}/profiles/10 HTTP/1.1
+Content-type: {{contentType}}
+Authorization: {{authorization}}
+
+###--------------------------------------------------------------------------------###
+
+### Create Interest List
+POST {{hostV1}}/interest_lists/create HTTP/1.1
+Content-type: {{contentType}}
+Authorization: {{authorization}}
+
+{
+  "movie_id": "1412-arrow",
+  "profile_id": "30"
+}
+
+### List Interest List
+GET {{hostV1}}/profiles/30/interest_lists HTTP/1.1
+Content-type: {{contentType}}
+Authorization: {{authorization}}
+
+### List Watch List
+GET {{hostV1}}/profiles/32/watch_lists HTTP/1.1
+Content-type: {{contentType}}
+Authorization: {{authorization}}
+
+### List Movies viewed
+GET {{hostV1}}/profiles/30/movies_viewed HTTP/1.1
+Content-type: {{contentType}}
+Authorization: {{authorization}}
+
+
+### Add status watchlist 
+POST {{hostV1}}/interest_lists/add_watch_list
+Content-type: {{contentType}}
+Authorization: {{authorization}}
+
+{
+  "movie_id": "475557-joker",
+  "profile_id": "30"
+}
+
+### Alter status viewed 
+PATCH {{hostV1}}/interest_lists/6/update_viewed
+Content-type: {{contentType}}
+Authorization: {{authorization}}
+
+### Delete Interest List
+DELETE {{hostV1}}/interest_lists/9 HTTP/1.1
+Content-type: {{contentType}}
+Authorization: {{authorization}}
+
+###--------------------------------------------------------------------------------###
+
+### Show Movie by Term
+GET {{hostV1}}/movies/breaking%20bad
+Content-type: {{contentType}}
+Authorization: {{authorization}}
+
+### Show all movies
+GET {{hostV1}}/movies
+Content-type: {{contentType}}
+Authorization: {{authorization}}

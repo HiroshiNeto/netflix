@@ -1,6 +1,8 @@
 require_relative 'boot'
-require "rails/test_unit/railtie"
+
 require 'rails/all'
+require 'net/http'
+require 'uri'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
