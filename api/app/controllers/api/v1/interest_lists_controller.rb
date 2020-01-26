@@ -9,7 +9,7 @@ module Api::V1
                 if !interest_list
                     interest_list = InterestList.create!(interest_list_params)
                 end
-                interest_list =  InterestList.where(profile_id: interest_list.profile_id).order(updated_at: :desc)
+                interest_list =  InterestList.where(profile_id: interest_list.profile_id, viewed: false, watchlist: false).order(updated_at: :desc)
                 render json: interest_list, each_serializer: InterestListSerializer
             else
                 render json: { error: 'Profile not allowed' }, status: 403
@@ -19,7 +19,7 @@ module Api::V1
         # GET /api/v1/profiles/:profile_id/interest_lists
         def index
           if profile_is_correct? 
-            interest_list = InterestList.where(profile_id: interest_list_params[:profile_id] ).order(updated_at: :desc)
+            interest_list = InterestList.where(profile_id: interest_list_params[:profile_id], viewed: false, watchlist:false ).order(updated_at: :desc)
             render json: interest_list, each_serializer: InterestListSerializer
           else
             render json: { error: 'Profile not allowed' }, status: 403
@@ -29,13 +29,14 @@ module Api::V1
         # GET /api/v1/profiles/:profile_id/watch_lists
         def get_watch_lists
           if profile_is_correct? 
-            interest_list = InterestList.where(profile_id: interest_list_params[:profile_id], watchlist: true ).order(updated_at: :desc)
+            interest_list = InterestList.where(profile_id: interest_list_params[:profile_id], watchlist: true, viewed: false ).order(updated_at: :desc)
             render json: interest_list, each_serializer: InterestListSerializer
           else
             render json: { error: 'Profile not allowed' }, status: 403
           end
         end
-      
+        
+
         # DELETE /api/v1/interest_lists/:interest_list_id
         def delete
             interest_list_id = interest_list_params[:interest_list_id]
@@ -55,7 +56,7 @@ module Api::V1
                     profile_id: interest_list_params[:profile_id],
                 )
                 interest_list.update(watchlist: !interest_list.watchlist)
-                interest_list =  InterestList.where(profile_id: interest_list.profile_id).order(updated_at: :desc)
+                interest_list =  InterestList.where(profile_id: interest_list.profile_id, watchlist: true, viewed: false).order(updated_at: :desc)
                 render json: interest_list, each_serializer: InterestListSerializer
             else
                 render json: {error: 'Interest List not allowed'}, status: 403
@@ -64,12 +65,22 @@ module Api::V1
         # PUT /api/v1/interest_lists/:interest_list_id/viewed
         def update_viewed
             interest_list_id = interest_list_params[:interest_list_id]
-            if profile_is_correct? interest_list_id
+            if interest_list_is_correct? interest_list_id
                 interest_list = InterestList.find(interest_list_id)
-                interest_list.update(viewed: !interest_list.viewed )
+                interest_list.update_columns(viewed: !interest_list.viewed)
                 render json: interest_list
             else
                 render json: {error: 'Interest List not allowed'}, status: 403
+            end
+        end
+        
+        # GET /api/v1/profiles/:profile_id/movies_viewed
+        def get_viewed_list
+            if profile_is_correct? 
+                interest_list = InterestList.where(profile_id: interest_list_params[:profile_id], viewed: true ).order(updated_at: :desc)
+                render json: interest_list, each_serializer: InterestListSerializer
+            else
+                render json: { error: 'Profile not allowed' }, status: 403
             end
         end
 
