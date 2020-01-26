@@ -9,7 +9,7 @@ module Api::V1
             else
                 account = Account.create!(account_params)
                   
-                render json: account, serializer: AccountSerializer
+                render json: { token: account.token }
             end
         end
   
@@ -21,15 +21,13 @@ module Api::V1
         
         # PATCH /api/v1/accounts/update_profile_default/:default_profile
         def update_profile_default
-            account = current_account
-            account = account.update_columns(profile_id: account_params[:default_params])
+            account = current_account.update_columns(profile_id: account_params[:default_profile])
             render json: account
         end
 
         # PUT /api/v1/update_me
         def update_me
-            account = current_account
-            account = account.update_columns(
+            account = current_account.update_columns(
                             name: account_params[:name], 
                             birthday: account_params[:birthday],
                             )

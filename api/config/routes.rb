@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       get   'me'                =>  'accounts#me'
       get   'movies/:term'  =>  'movies#get_by_term'
       get   'movies'            => 'movies#get_top_movies'
+      get   'profiles/:profile_id/movies_viewed'      => 'interest_lists#get_viewed_list'
 
       put   'profiles/:profile_id'   =>  'profiles#update'
       put   'update_me'         =>  'accounts#update_me'
