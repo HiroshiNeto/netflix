@@ -113,13 +113,7 @@
                 </button>
               </div>
               <div class="row">
-                <button class="btn blue darken-4" @click.prevent="addWatchList(watch.movie.id)">
-                <span>
-                  <i class="material-icons ">visibility</i>  Ver depois</span>
-                </button>
-              </div>
-              <div class="row">
-                <button class="btn red darken-4" @click.prevent="deleteInterestList(watch.id, index)">
+                <button class="btn red darken-4" @click.prevent="deleteWatchList(watch.id, index)">
                   <span>
                     <i class="material-icons ">remove_circle_outline</i>  Retirar da lista
                   </span>
@@ -239,7 +233,7 @@ export default {
     async deleteWatchList(listId, index) {
       try {
         var interest_list_id = listId
-        await this.ActionDeleteInterestList(interest_list_id)
+        await this.ActionDeleteWatchList(interest_list_id)
         this.watchList.splice(index, 1)
       } catch  (err) {
         console.log(err)
